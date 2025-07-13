@@ -45,7 +45,7 @@ struct Scene
     sun: Vector,
 }
 
-pub struct Renderer
+pub struct Raytracer
 {
     frametime: f32,
     frame_count: f32,
@@ -61,11 +61,11 @@ pub struct Renderer
     scene: Scene,
 }
 
-impl Renderer
+impl Raytracer
 {
-    pub fn new(width: usize, height: usize) -> Renderer
+    pub fn new(width: usize, height: usize) -> Raytracer
     {
-        let mut renderer = Renderer
+        let mut renderer = Raytracer
         {
             frametime: 0.0,
             frame_count: 1.0, // avoid division by zero

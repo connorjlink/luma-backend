@@ -225,6 +225,20 @@ impl Camera
             self.moved = true;
         }
 
+        // handles mouse interaction to provide click and pan functionality
+        let mouse = ctx.input(|i| i.pointer.press_origin());
+        if mouse.is_some()
+        {
+            let mouse_pos = mouse.unwrap();
+            let delta_x = mouse_pos.x - ctx.screen_rect().center().x;
+            let delta_y = mouse_pos.y - ctx.screen_rect().center().y;
+
+            self.yaw = delta_x * ROTATION_SPEED * delta;
+            self.pitch = delta_y * ROTATION_SPEED * delta;
+
+            self.moved = true;
+        }
+
         const PI: f32 = 3.14159265358979323846;
 
         self.pitch = f32::clamp(self.pitch, -PI / 4.0, PI / 4.0);

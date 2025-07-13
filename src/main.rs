@@ -5,14 +5,14 @@ mod vector;
 mod matrix;
 mod ray;
 mod camera;
-mod renderer;
+mod raytracer;
 
 use eframe::egui;
 
 struct LumaApplication
 {
     name: String,
-    renderer: renderer::Renderer,
+    raytracer: raytracer::Raytracer,
     texture: Option<egui::TextureHandle>,
     initialized: bool,
 }
@@ -24,11 +24,18 @@ impl LumaApplication
         return Self
         {
             name: "Luma Pathtracer".to_owned(),
-            renderer: renderer::Renderer::new(1000, 1000),
+            raytracer: raytracer::Raytracer::new(1000, 1000),
             texture: None,
             initialized: false,
         }
     }
+}
+
+struct GeoApplication
+{
+    name: String,
+    rasterizer: rasterizer::Rasterizer,
+    initialized: bool,
 }
 
 impl eframe::App for LumaApplication
@@ -46,13 +53,13 @@ impl eframe::App for LumaApplication
             self.initialized = true;
         }
 
-        self.renderer.update(ctx);
-        self.renderer.render(2);
+        self.raytracer.update(ctx);
+        self.raytracer.render(2);
     
 
         // obtain a texture handle from the framebuffer bitmap
-        let bitmap = self.renderer.bitmap();
-        let size = self.renderer.size();
+        let bitmap = self.raytracer.bitmap();
+        let size = self.raytracer.size();
         let image = egui::ColorImage::from_rgba_unmultiplied(size, &bitmap);
         self.texture = Some(ctx.load_texture("image", image, egui::TextureOptions::LINEAR));
 
@@ -79,19 +86,25 @@ impl eframe::App for LumaApplication
             ui.vertical(|ui|
             {
                 ui.label("Luma Pathtracer");
-                ui.label(format!("Frametime: {}", self.renderer.frametime()));
+                ui.label(format!("Frametime: {}", self.raytracer.frametime()));
 
-                let position = self.renderer.position();
+                let position = self.raytracer.position();
                 ui.label(format!("Position: ({}, {}, {})", position.x(), position.y(), position.z()));
 
-                let rotation = self.renderer.rotation();
+                let rotation = self.raytracer.rotation();
                 ui.label(format!("Rotation: ({}, {}, {})", rotation.x(), rotation.y(), rotation.z()));
             });
         });
     }
 }
 
-fn main()
+impl eframe::App for GeoApplication
+{
+
+}
+
+
+fn run_raytracer()
 {
     let application = LumaApplication::new();
 
@@ -107,4 +120,30 @@ fn main()
         options,
         Box::new(|_cc| Ok(Box::new(application))),
     );
+}
+
+fn run_rasterizer()
+{
+
+}
+
+fn main()
+{
+    let command_line = std::env::args().collect::<Vec<String>>();
+    for arg in command_line.iter()
+    {
+        if arg == "--raytrace"
+        {
+            run_raytracer();
+        }
+        else if arg == "--rasterize"
+        {
+            run_rasterizer();
+        }
+        else
+        {
+            println!("Usage: luma [options]");
+            return;
+        }
+    }
 }

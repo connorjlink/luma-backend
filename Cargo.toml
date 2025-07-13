@@ -10,3 +10,5 @@ eframe = "0.31"
 egui = "0.31"
 egui_extras = { version = "0.31", features = ["all_loaders"] }
 rand = "0.8"
+gl = "0.14.0"
+glfw = "0.59.0"
