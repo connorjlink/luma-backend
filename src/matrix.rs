@@ -199,7 +199,7 @@ impl Matrix
 
         if det == 0.0
         {
-            panic!("Matrix is singular and cannot be inverted");
+            panic!("matrix is singular and cannot be inverted");
         }
 
         let adjugate = Matrix::adjugate(mat1);
@@ -228,9 +228,9 @@ impl Matrix
 		let A0112 = mat1.m[1][0] * mat1.m[2][1] - mat1.m[1][1] * mat1.m[2][0];
 
 		let mut det = mat1.m[0][0] * (mat1.m[1][1] * A2323 - mat1.m[1][2] * A1323 + mat1.m[1][3] * A1223)
-				         - mat1.m[0][1] * (mat1.m[1][0] * A2323 - mat1.m[1][2] * A0323 + mat1.m[1][3] * A0223)
-				         + mat1.m[0][2] * (mat1.m[1][0] * A1323 - mat1.m[1][1] * A0323 + mat1.m[1][3] * A0123)
-				         - mat1.m[0][3] * (mat1.m[1][0] * A1223 - mat1.m[1][1] * A0223 + mat1.m[1][2] * A0123);
+				    - mat1.m[0][1] * (mat1.m[1][0] * A2323 - mat1.m[1][2] * A0323 + mat1.m[1][3] * A0223)
+				    + mat1.m[0][2] * (mat1.m[1][0] * A1323 - mat1.m[1][1] * A0323 + mat1.m[1][3] * A0123)
+				    - mat1.m[0][3] * (mat1.m[1][0] * A1223 - mat1.m[1][1] * A0223 + mat1.m[1][2] * A0123);
 		
 		det = 1.0 / det;
 
@@ -259,13 +259,8 @@ impl Matrix
 
     pub fn lookat(eye: &Vector, at: &Vector, up: &Vector) -> Matrix
     {
-        // forward
         let f = Vector::normalize(&Vector::sub(at, eye));
-
-        // right
         let r = Vector::normalize(&Vector::cross(up, &f));
-
-        // up
         let u = Vector::cross(&f, &r);
 
         return Matrix

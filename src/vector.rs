@@ -1,8 +1,8 @@
 // (c) 2025 Connor J. Link. All Rights Reserved.
 // Luma - Vector.rs
 
-#[derive(Clone)]
-#[derive(Copy)]
+#[repr(C)]
+#[derive(Copy, Clone, Debug, bytemuck::Pod, bytemuck::Zeroable)]
 pub struct Vector
 {
     x: f32,
@@ -106,7 +106,7 @@ impl Vector
     pub fn dot(vec1: &Vector, vec2: &Vector) -> f32
     {
         // w excluded
-        return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
+        return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
     }
 
     pub fn cross(vec1: &Vector, vec2: &Vector) -> Vector

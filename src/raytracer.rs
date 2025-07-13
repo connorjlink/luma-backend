@@ -171,13 +171,13 @@ impl Raytracer
 
     fn jitter(vec1: &Vector, noise: f32) -> Vector
     {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         return Vector::new
         (
-            vec1.x() + rng.gen::<f32>() * noise,
-            vec1.y() + rng.gen::<f32>() * noise,
-            vec1.z() + rng.gen::<f32>() * noise,
+            vec1.x() + rng.random::<f32>() * noise,
+            vec1.y() + rng.random::<f32>() * noise,
+            vec1.z() + rng.random::<f32>() * noise,
             vec1.w(),
         );
     }
@@ -222,12 +222,12 @@ impl Raytracer
         return fresnel;
     }
 
-    fn direct(intersection: &Intersection) -> Vector
+    fn direct(_intersection: &Intersection) -> Vector
     {
         return Vector::zero();
     }
 
-    fn indirect(intersection: &Intersection) -> Vector
+    fn indirect(_intersection: &Intersection) -> Vector
     {
         return Vector::zero();
     }
@@ -351,7 +351,7 @@ impl Raytracer
             };
         }
 
-        let mut depth = f32::MAX;
+        let depth = f32::MAX;
 
         let intersection = self.trace(&ray);
 
