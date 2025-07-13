@@ -7,7 +7,7 @@ struct Rasterizer
 {
     width: u32,
     height: u32,
-    // TODO: add the graphis device, render target image, pipeline, shaders, etc.
+    // TODO: add the graphics device, render target image, pipeline, shaders, etc.
 }
 
 impl Rasterizer

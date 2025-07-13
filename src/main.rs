@@ -55,7 +55,6 @@ impl eframe::App for LumaApplication
 
         self.raytracer.update(ctx);
         self.raytracer.render(2);
-    
 
         // obtain a texture handle from the framebuffer bitmap
         let bitmap = self.raytracer.bitmap();
@@ -100,7 +99,15 @@ impl eframe::App for LumaApplication
 
 impl eframe::App for GeoApplication
 {
+    fn clear_color(&self, _visuals: &egui::Visuals) -> [f32; 4]
+    {
+        return [0.0, 0.0, 0.0, 1.0];    
+    }
 
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame)
+    {
+    
+    }
 }
 
 
